@@ -1,55 +1,54 @@
+
 const Engine = Matter.Engine;
 const World = Matter.World;
 const Bodies = Matter.Bodies;
-const Constraint = Matter.Constraint;
+const Body = Matter.Body;
 
-var engine, world;
-var canvas;
-var palyer, playerBase, playerArcher;
-var baseimage;
+var ball;
+var groundObj,leftside;
 
-function preload() {
-  backgroundImg = loadImage("./assets/background.png");
-  baseimage = loadImage("./assets/base.png");
-  playerimage = loadImage("./assets/player.png");
+function preload()
+{
+	
 }
 
 function setup() {
-  canvas = createCanvas(windowWidth, windowHeight);
-
-  engine = Engine.create();
-  world = engine.world;
-  angleMode(DEGREES);
-
-  //criar corpo da base do jogador
- var options = {
-   isStatic: true 
- };
-
- playerBase = Bodies.rectangle(200,350,180,150, options);
-
- player = Bodies.rectangle(250,playerBase.position.y-160,50,180, options);
- world.add(worl,player)
-  //criar corpo do jogador
+	createCanvas(windowWidth,windowHeight);
 
 
+	engine = Engine.create();
+	world = engine.world;
 
+	//Create the Bodies Here.
+   
+   var ball_options={
+	   isStatic:false,
+	   restitution :0.3,
+	   friction:0,
+	   density:1.2
+   }
+   ball=Bodies.circle(200,50,40,ball_options)
+   World.add(world,ball)
+   groundObj=new Ground(width/2,670,width,20);
+   leftSide = new Ground(1100,600,20,120);
+
+
+	Engine.run(engine);
+  
 }
+
 
 function draw() {
-  background(backgroundImg);
+  //rectMode(CENTER);
+  background(0);
+  ellipse(ball.position.x,ball.position.y,40,40)
+  groundObj.display()
+  leftSide.display()
+  
+  drawSprites();
 
-  //exibir a imagem do jogador usando a função image()
- Image(playerimage,playerposition.x,position.y,50,180)
-
-  //exibir a imagem da base do jogador usando a função image()
-Image(baseimage,playerBase.position.x,playerBase.position.y,180,150)
-
-  Engine.update(engine);
-
-  // Title
-  fill("#FFFF");
-  textAlign("center");
-  textSize(40);
-  text("ARQUEIRO ÉPICO", width / 2, 100);
+ 
 }
+
+
+
